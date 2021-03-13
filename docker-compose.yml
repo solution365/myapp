@@ -1,0 +1,28 @@
+version: '2'
+services:
+  myapp:
+    image: 'bitnami/codeigniter:3'
+    ports:
+      - '8000:8000'
+        
+    volumes:
+      - '.:/app'
+    depends_on:
+      - mariadb
+  mariadb:
+    image: 'bitnami/mariadb:10.3'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: example
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
